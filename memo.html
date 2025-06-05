@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Jeu de Mémoire d'AMAIA 🧠</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(45deg, #ff69b4, #87ceeb, #98fb98, #ffd700, #dda0dd);
+            background-size: 400% 400%;
+            animation: gradientShift 6s ease infinite;
+            min-height: 100vh;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="18" font-size="18">🧠</text></svg>'), auto;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 5px solid #ff69b4;
+            margin: 20px 0;
+            border-radius: 25px;
+            box-shadow: 0 0 30px #ff1493;
+            animation: header-pulse 3s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '🧠💖🎮✨🏆🌟';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            font-size: 1.2em;
+            animation: slide 4s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes header-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 30px #ff1493;
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 50px #ff69b4, 0 0 70px #ffd700;
+                transform: scale(1.01);
+            }
+        }
+        
+        .title {
+            font-size: 3em;
+            color: #ff1493;
+            text-shadow: 3px 3px 0 #ffb6c1, 6px 6px 0 #ff69b4;
+            animation: bounce 2s infinite alternate;
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-8px); }
+        }
+        
+        .game-info {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #87ceeb;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            animation: info-float 4s ease-in-out infinite;
+        }
+        
+        @keyframes info-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            background: linear-gradient(45deg, #ff69b4, #ffd700);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            animation: stat-glow 2s infinite alternate;
+            border: 2px solid #ff1493;
+        }
+        
+        @keyframes stat-glow {
+            from { box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4); }
+            to { box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6); }
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            border: 4px solid #98fb98;
+            box-shadow: 0 0 40px rgba(152, 251, 152, 0.6);
+            animation: board-shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes board-shimmer {
+            0%, 100% { box-shadow: 0 0 40px rgba(152, 251, 152, 0.6); }
+            50% { box-shadow: 0 0 60px rgba(135, 206, 235, 0.8); }
+        }
+        
+        .card {
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #ff69b4, #ffd700);
+            border: 3px solid #ff1493;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            transition: all 0.6s ease;
+            transform-style: preserve-3d;
+            animation: card-idle 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '💖';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            z-index: 2;
+            transition: all 0.6s ease;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            opacity: 0;
+            transition: all 0.6s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        @keyframes card-idle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.6);
+            animation: none;
+        }
+        
+        .card.flipped {
+            background: linear-gradient(45deg, #98fb98, #87ceeb);
+            transform: rotateY(180deg);
+        }
+        
+        .card.flipped::before {
+            opacity: 0;
+        }
+        
+        .card.flipped .card-image {
+            opacity: 1;
+            transform: rotateY(180deg);
+        }
+        
+        .card.matched {
+            background: linear-gradient(45deg, #ffd700, #98fb98);
+            animation: victory-dance 1s ease-in-out;
+            border-color: #32cd32;
+            box-shadow: 0 0 25px #ffd700;
+        }
+        
+        @keyframes victory-dance {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+            animation: btn-glow 2s infinite alternate;
+            transition: all 0.3s ease;
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        @keyframes btn-glow {
+            from { box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4); }
+            to { box-shadow: 0 8px 30px rgba(255, 105, 180, 0.7); }
+        }
+        
+        .btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            animation-duration: 0.5s;
+        }
+        
+        .btn.reset {
+            background: linear-gradient(45deg, #32cd32, #98fb98);
+        }
+        
+        .victory-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(45deg, #ffd700, #ff69b4, #98fb98);
+            padding: 40px;
+            border-radius: 25px;
+            border: 5px solid #ff1493;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            animation: popup-appear 0.5s ease-out forwards;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes popup-appear {
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .victory-popup.show {
+            animation: victory-celebration 2s ease-in-out infinite;
+        }
+        
+        @keyframes victory-celebration {
+            0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) scale(1.05) rotate(-2deg); }
+            75% { transform: translate(-50%, -50%) scale(1.05) rotate(2deg); }
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #dda0dd, #87ceeb);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            border: 3px solid #9370db;
+            box-shadow: 0 0 20px #dda0dd;
+            animation: link-pulse 2s infinite;
+            margin: 20px 10px;
+        }
+        
+        @keyframes link-pulse {
+            0% { box-shadow: 0 0 20px #dda0dd; }
+            50% { box-shadow: 0 0 30px #87ceeb, 0 0 40px #dda0dd; }
+            100% { box-shadow: 0 0 20px #dda0dd; }
+        }
+        
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 25px;
+            animation: confetti-fall 3s linear;
+        }
+        
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .sparkle-effect {
+            position: absolute;
+            pointer-events: none;
+            font-size: 15px;
+            animation: sparkle-burst 1s ease-out;
+            z-index: 10;
+        }
+        
+        @keyframes sparkle-burst {
+            0% { opacity: 1; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 0; transform: scale(0.5) translateY(-30px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🧠 JEU DE MÉMOIRE MAGIQUE 🧠</h1>
+            <p style="font-size: 1.3em; color: #dc143c; position: relative; z-index: 2;">
+                💖 Retrouve toutes les paires d'images d'Amaia ! 💖
+            </p>
+        </div>
+        
+        <div class="game-info">
+            <div class="stats">
+                <div class="stat-item">
+                    🃏 Tentatives: <span id="attempts">0</span>
+                </div>
+                <div class="stat-item">
+                    ⏱️ Temps: <span id="timer">00:00</span>
+                </div>
+                <div class="stat-item">
+                    ✨ Paires: <span id="pairs">0</span>/10
+                </div>
+                <div class="stat-item">
+                    🏆 Meilleur: <span id="bestTime">--:--</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-board" id="gameBoard">
+            <!-- Les cartes seront générées par JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="startNewGame()">
+                🎮 NOUVELLE PARTIE
+            </button>
+            <button class="btn reset" onclick="resetStats()">
+                🔄 RESET STATS
+            </button>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="index.html" class="back-link">
+                🏠 RETOUR À L'ACCUEIL
+            </a>
+            <a href="compliments.html" class="back-link">
+                ✨ COMPLIMENTS
+            </a>
+            <a href="surnoms.html" class="back-link">
+                🎀 SURNOMS
+            </a>
+        </div>
+    </div>
+    
+    <div class="victory-popup" id="victoryPopup" style="display: none;">
+        <h2>🎉 BRAVO ! 🎉</h2>
+        <p>Tu as réussi en <span id="finalTime"></span> !</p>
+        <p>Avec <span id="finalAttempts"></span> tentatives !</p>
+        <p>🌟 Amaia est fière de toi ! 🌟</p>
+        <button class="btn" onclick="closeVictory(); startNewGame();">
+            🎮 REJOUER
+        </button>
+    </div>
+    
+    <script>
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let attempts = 0;
+        let gameStarted = false;
+        let startTime = null;
+        let timerInterval = null;
+        
+        // Images du dossier memo (utilise tes 10 images)
+        const images = [
+            'images/memo/image1.jpg',
+            'images/memo/image2.jpg',
+            'images/memo/image3.jpg',
+            'images/memo/image4.jpg',
+            'images/memo/image5.jpg',
+            'images/memo/image6.jpg',
+            'images/memo/image7.jpg',
+            'images/memo/image8.jpg',
+            'images/memo/image9.jpg',
+            'images/memo/image10.jpg'
+        ];
+        
+        function initGame() {
+            // Créer les paires de cartes (chaque image en double)
+            const cardData = [...images, ...images];
+            
+            // Mélanger les cartes
+            shuffle(cardData);
+            
+            // Créer le HTML des cartes
+            const gameBoard = document.getElementById('gameBoard');
+            gameBoard.innerHTML = '';
+            
+            cardData.forEach((imageSrc, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.index = index;
+                card.dataset.image = imageSrc;
+                
+                const img = document.createElement('img');
+                img.src = imageSrc;
+                img.className = 'card-image';
+                img.alt = 'Image Amaia';
+                img.onerror = function() {
+                    console.log('Erreur de chargement image:', this.src);
+                    // Image de fallback en cas d'erreur
+                    this.style.display = 'none';
+                    card.innerHTML += '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8em; color: #666;">❓</div>';
+                };
+                
+                card.appendChild(img);
+                card.addEventListener('click', () => flipCard(index));
+                
+                gameBoard.appendChild(card);
+            });
+            
+            cards = Array.from(document.querySelectorAll('.card'));
+            resetGame();
+        }
+        
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        function flipCard(index) {
+            const card = cards[index];
+            
+            if (!gameStarted) {
+                startGame();
+            }
+            
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) {
+                return;
+            }
+            
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            
+            // Effet de sparkle
+            createSparkleEffect(card);
+            
+            if (flippedCards.length === 2) {
+                attempts++;
+                updateAttempts();
+                
+                setTimeout(() => {
+                    checkMatch();
+                }, 1000);
+            }
+        }
+        
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const image1 = card1.dataset.image;
+            const image2 = card2.dataset.image;
+            
+            if (image1 === image2) {
+                // Match trouvé !
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                updatePairs();
+                
+                // Confetti pour la paire trouvée
+                createConfetti();
+                
+                if (matchedPairs === 10) {
+                    // Victoire !
+                    endGame();
+                }
+            } else {
+                // Pas de match
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+            }
+            
+            flippedCards = [];
+        }
+        
+        function createSparkleEffect(card) {
+            const sparkles = ['✨', '⭐', '🌟', '💫', '💖'];
+            const rect = card.getBoundingClientRect();
+            
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle-effect';
+                    sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                    sparkle.style.left = (rect.left + rect.width/2 + (Math.random() - 0.5) * 60) + 'px';
+                    sparkle.style.top = (rect.top + rect.height/2 + (Math.random() - 0.5) * 60) + 'px';
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 1000);
+                }, i * 100);
+            }
+        }
+        
+        function createConfetti() {
+            const confettiEmojis = ['🎉', '🎊', '🌟', '✨', '💖', '🦄', '🌈', '🎀', '💕', '🌸'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-50px';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 100);
+            }
+        }
+        
+        function startGame() {
+            gameStarted = true;
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+        
+        function endGame() {
+            clearInterval(timerInterval);
+            const endTime = Date.now();
+            const totalTime = Math.floor((endTime - startTime) / 1000);
+            
+            // Sauvegarder le meilleur temps
+            const bestTime = localStorage.getItem('amaia-memo-best') || Infinity;
+            if (totalTime < bestTime) {
+                localStorage.setItem('amaia-memo-best', totalTime);
+                updateBestTime();
+            }
+            
+            // Afficher la popup de victoire
+            document.getElementById('finalTime').textContent = formatTime(totalTime);
+            document.getElementById('finalAttempts').textContent = attempts;
+            
+            const popup = document.getElementById('victoryPopup');
+            popup.style.display = 'block';
+            popup.classList.add('show');
+            
+            // Super confetti de victoire
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => createConfetti(), i * 50);
+            }
+        }
+        
+        function updateTimer() {
+            if (!gameStarted) return;
+            
+            const currentTime = Date.now();
+            const elapsed = Math.floor((currentTime - startTime) / 1000);
+            document.getElementById('timer').textContent = formatTime(elapsed);
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateAttempts() {
+            document.getElementById('attempts').textContent = attempts;
+        }
+        
+        function updatePairs() {
+            document.getElementById('pairs').textContent = matchedPairs;
+        }
+        
+        function updateBestTime() {
+            const bestTime = localStorage.getItem('amaia-memo-best');
+            if (bestTime && bestTime !== 'Infinity') {
+                document.getElementById('bestTime').textContent = formatTime(parseInt(bestTime));
+            }
+        }
+        
+        function startNewGame() {
+            initGame();
+        }
+        
+        function resetGame() {
+            flippedCards = [];
+            matchedPairs = 0;
+            attempts = 0;
+            gameStarted = false;
+            startTime = null;
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            updateAttempts();
+            updatePairs();
+            document.getElementById('timer').textContent = '00:00';
+            
+            // Retirer toutes les classes des cartes
+            cards.forEach(card => {
+                card.classList.remove('flipped', 'matched');
+            });
+        }
+        
+        function resetStats() {
+            localStorage.removeItem('amaia-memo-best');
+            document.getElementById('bestTime').textContent = '--:--';
+            alert('🎮 Statistiques remises à zéro ! 🎮');
+        }
+        
+        function closeVictory() {
+            const popup = document.getElementById('victoryPopup');
+            popup.style.display = 'none';
+            popup.classList.remove('show');
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBestTime();
+            initGame();
+        });
+        
+        // Effets visuels supplémentaires
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.95) {
+                const sparkles = ['🧠', '💖', '✨', '🌟'];
+                const sparkle = document.createElement('div');
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.fontSize = '12px';
+                sparkle.style.zIndex = '999';
+                sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                sparkle.style.animation = 'sparkle-burst 1s ease-out';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        });
+    </script>
+</body>
+</html>

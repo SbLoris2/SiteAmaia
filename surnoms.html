@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎀 Générateur de Surnoms pour AMAIA 🎀</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(45deg, #ffd1dc, #ffb6c1, #ff69b4, #ffd700, #98fb98);
+            background-size: 400% 400%;
+            animation: gradientShift 5s ease infinite;
+            min-height: 100vh;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="18" font-size="18">🎀</text></svg>'), auto;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 5px dotted #ff69b4;
+            margin: 20px 0;
+            border-radius: 30px;
+            box-shadow: 0 0 35px #ffd700;
+            animation: kawaii-bounce 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '🎀✨🌟💖🦄🌸';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            font-size: 1.5em;
+            animation: slide 3s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes kawaii-bounce {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+        }
+        
+        .title {
+            font-size: 3.2em;
+            color: #ff1493;
+            text-shadow: 3px 3px 0 #ffd1dc, 6px 6px 0 #ffb6c1, 9px 9px 0 #ff69b4;
+            animation: kawaii-wiggle 3s infinite;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes kawaii-wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+        }
+        
+        .generator-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 4px solid #ff69b4;
+            border-radius: 25px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            animation: gentle-float 4s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .generator-box::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff69b4, #ffd700, #98fb98, #87ceeb);
+            border-radius: 30px;
+            z-index: -1;
+            animation: rainbow-border 4s linear infinite;
+        }
+        
+        @keyframes rainbow-border {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .surnom-display {
+            background: linear-gradient(135deg, #ffd1dc, #ffe4e6, #fff0f5);
+            border: 3px solid #ff1493;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #dc143c;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            animation: kawaii-glow 3s infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .surnom-display::after {
+            content: '🎀💕✨';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.6em;
+            animation: twinkle 2s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        @keyframes kawaii-glow {
+            from { 
+                box-shadow: 0 0 20px #ffd700;
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 40px #ff69b4, 0 0 60px #ffd1dc;
+                transform: scale(1.02);
+            }
+        }
+        
+        .generate-btn {
+            background: linear-gradient(45deg, #ff69b4, #ffd700, #98fb98);
+            background-size: 300% 300%;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.4em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+            animation: button-kawaii 2s infinite, gradient-move 4s ease infinite;
+            transition: all 0.3s ease;
+            font-family: 'Comic Neue', cursive;
+            position: relative;
+        }
+        
+        .generate-btn::before {
+            content: '🎀';
+            position: absolute;
+            left: 15px;
+            animation: spin 2s linear infinite;
+        }
+        
+        .generate-btn::after {
+            content: '🎀';
+            position: absolute;
+            right: 15px;
+            animation: spin 2s linear infinite reverse;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes gradient-move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes button-kawaii {
+            0%, 100% { 
+                box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+                transform: translateY(0px);
+            }
+            50% { 
+                box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6), 0 0 25px #ff69b4;
+                transform: translateY(-3px);
+            }
+        }
+        
+        .generate-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            animation-duration: 0.5s;
+        }
+        
+        .category-selector {
+            margin: 25px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .category-btn {
+            background: linear-gradient(45deg, #ffb6c1, #ffd1dc);
+            border: 2px solid #ff69b4;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #dc143c;
+            transition: all 0.3s ease;
+            animation: category-float 3s ease-in-out infinite;
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        .category-btn:hover {
+            background: linear-gradient(45deg, #ff69b4, #ffd700);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            box-shadow: 0 0 15px #ff69b4;
+        }
+        
+        @keyframes category-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .stats-kawaii {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            animation: kawaii-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes kawaii-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #98fb98, #87ceeb);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            border: 3px solid #32cd32;
+            box-shadow: 0 0 20px #98fb98;
+            animation: link-glow 2s infinite;
+            margin: 20px 10px;
+        }
+        
+        @keyframes link-glow {
+            0% { box-shadow: 0 0 20px #98fb98; }
+            50% { box-shadow: 0 0 30px #87ceeb, 0 0 40px #98fb98; }
+            100% { box-shadow: 0 0 20px #98fb98; }
+        }
+        
+        .kawaii-explosion {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            font-size: 30px;
+            animation: kawaii-explode 2s ease-out;
+        }
+        
+        @keyframes kawaii-explode {
+            0% { 
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(2) rotate(180deg);
+            }
+            100% { 
+                opacity: 0;
+                transform: scale(0.3) rotate(360deg) translateY(-150px);
+            }
+        }
+        
+        .floating-kawaii {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            animation: float-away 3s ease-out;
+            z-index: 999;
+        }
+        
+        @keyframes float-away {
+            0% { opacity: 1; transform: translateY(0px) scale(1); }
+            100% { opacity: 0; transform: translateY(-100px) scale(0.5); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🎀 GÉNÉRATEUR KAWAII 🎀</h1>
+            <p style="font-size: 1.4em; color: #dc143c; animation: rainbow 3s linear infinite;">
+                DE PETITS SURNOMS MIGNONS POUR AMAIA
+            </p>
+            <p style="font-size: 1.1em; color: #ff1493; margin-top: 10px;">
+                🌸 Des surnoms adorables et kitsch ! 🌸
+            </p>
+        </div>
+        
+        <div class="generator-box">
+            <h2 style="color: #ff1493; font-size: 2em; margin-bottom: 20px;">
+                💕 TON PETIT SURNOM PERSONNALISÉ 💕
+            </h2>
+            
+            <div class="category-selector">
+                <button class="category-btn active" onclick="setCategory('mignon')" data-category="mignon">
+                    🐱 MIGNON
+                </button>
+                <button class="category-btn" onclick="setCategory('romantique')" data-category="romantique">
+                    💖 ROMANTIQUE
+                </button>
+                <button class="category-btn" onclick="setCategory('kawaii')" data-category="kawaii">
+                    🌸 KAWAII
+                </button>
+                <button class="category-btn" onclick="setCategory('princesse')" data-category="princesse">
+                    👑 PRINCESSE
+                </button>
+                <button class="category-btn" onclick="setCategory('sucre')" data-category="sucre">
+                    🍭 SUCRÉ
+                </button>
+            </div>
+            
+            <div class="surnom-display" id="surnomDisplay">
+                <p>🎀 Choisis une catégorie et clique pour découvrir ton petit surnom ! 🎀</p>
+            </div>
+            
+            <button class="generate-btn" onclick="generateSurnom()">
+                🪄 NOUVEAU SURNOM KAWAII 🪄
+            </button>
+            
+            <div class="stats-kawaii">
+                <h3 style="color: #ff1493; margin-bottom: 15px;">📊 STATISTIQUES KAWAII</h3>
+                <p style="color: #dc143c;">
+                    🎀 Surnoms générés: <span id="surnomCount">0</span><br>
+                    🌟 Catégorie favorite: <span id="favoriteCategory">Mignon</span><br>
+                    💕 Niveau de mignonnerie d'Amaia: ∞ (Ultra Kawaii!)<br>
+                    🍭 Douceur d'Amaia: 999% (Plus douce que du miel!)
+                </p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="index.html" class="back-link">
+                🏠 RETOUR À L'ACCUEIL
+            </a>
+            <a href="compliments.html" class="back-link">
+                ✨ COMPLIMENTS MAGIQUES
+            </a>
+            <button class="back-link" onclick="shareSurnom()" style="border: none; cursor: pointer;">
+                📱 PARTAGER CE SURNOM
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        const surnoms = {
+            mignon: [
+                "🐱 Ma petite Amaia-chan",
+                "🧸 Mon nounours Amaia",
+                "🐰 Ma lapinette Amaia",
+                "🐼 Ma petite panda Amaia",
+                "🦔 Mon hérisson tout doux Amaia",
+                "🐣 Mon petit poussin Amaia",
+                "🐿️ Ma petite écureuille Amaia",
+                "🦋 Ma petite libellule Amaia",
+                "🐝 Ma petite abeille Amaia",
+                "🐞 Ma coccinelle Amaia"
+            ],
+            romantique: [
+                "💖 Mon cœur Amaia",
+                "💕 Ma chérie d'amour Amaia",
+                "💘 Mon petit amour Amaia",
+                "💝 Mon trésor Amaia",
+                "💞 Ma moitié Amaia",
+                "🌹 Ma rose Amaia",
+                "💋 Mon bisou Amaia",
+                "💗 Ma valentine Amaia",
+                "💓 Mon petit cœur Amaia",
+                "💌 Ma lettre d'amour Amaia"
+            ],
+            kawaii: [
+                "🌸 Amaia-flower",
+                "🎀 Amaia-bow",
+                "✨ Amaia-sparkle",
+                "🌈 Amaia-rainbow",
+                "⭐ Amaia-star",
+                "🦄 Amaia-licorne",
+                "🌙 Amaia-moon",
+                "🍀 Amaia-lucky",
+                "🎵 Amaia-melody",
+                "🌺 Amaia-blossom"
+            ],
+            princesse: [
+                "👑 Princesse Amaia",
+                "💎 Ma diamant Amaia",
+                "🏰 Ma reine Amaia",
+                "✨ Ma fée Amaia",
+                "🌟 Ma déesse Amaia",
+                "💫 Mon étoile Amaia",
+                "🔮 Ma magicienne Amaia",
+                "👸 Sa Majesté Amaia",
+                "💍 Ma perle Amaia",
+                "🌹 Ma noble Amaia"
+            ],
+            sucre: [
+                "🍭 Ma sucette Amaia",
+                "🧁 Mon cupcake Amaia",
+                "🍯 Mon miel Amaia",
+                "🍰 Ma petite gâteau Amaia",
+                "🍪 Mon biscuit Amaia",
+                "🎂 Ma douceur Amaia",
+                "🍬 Mon bonbon Amaia",
+                "🧈 Mon beurre Amaia",
+                "🥧 Ma tarte Amaia",
+                "🍓 Ma fraise Amaia"
+            ]
+        };
+        
+        let surnomCount = 0;
+        let currentCategory = 'mignon';
+        let currentSurnom = "";
+        let categoryStats = {
+            mignon: 0,
+            romantique: 0,
+            kawaii: 0,
+            princesse: 0,
+            sucre: 0
+        };
+        
+        function setCategory(category) {
+            currentCategory = category;
+            
+            // Mettre à jour les boutons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+            
+            // Animation kawaii
+            createKawaiiExplosion();
+        }
+        
+        function generateSurnom() {
+            const categoryArray = surnoms[currentCategory];
+            const randomIndex = Math.floor(Math.random() * categoryArray.length);
+            currentSurnom = categoryArray[randomIndex];
+            
+            const display = document.getElementById('surnomDisplay');
+            
+            // Animation de changement kawaii
+            display.style.transform = 'scale(0.7) rotate(-5deg)';
+            display.style.opacity = '0.3';
+            
+            setTimeout(() => {
+                display.innerHTML = '<p>' + currentSurnom + '</p>';
+                display.style.transform = 'scale(1) rotate(0deg)';
+                display.style.opacity = '1';
+                
+                surnomCount++;
+                categoryStats[currentCategory]++;
+                
+                // Mettre à jour les statistiques
+                document.getElementById('surnomCount').textContent = surnomCount;
+                updateFavoriteCategory();
+                
+                // Explosion kawaii
+                createKawaiiExplosion();
+                
+                // Son kawaii (simulation)
+                playKawaiiSound();
+                
+            }, 300);
+        }
+        
+        function updateFavoriteCategory() {
+            let maxCategory = 'mignon';
+            let maxCount = 0;
+            
+            for (let category in categoryStats) {
+                if (categoryStats[category] > maxCount) {
+                    maxCount = categoryStats[category];
+                    maxCategory = category;
+                }
+            }
+            
+            const categoryNames = {
+                mignon: 'Mignon 🐱',
+                romantique: 'Romantique 💖',
+                kawaii: 'Kawaii 🌸',
+                princesse: 'Princesse 👑',
+                sucre: 'Sucré 🍭'
+            };
+            
+            document.getElementById('favoriteCategory').textContent = categoryNames[maxCategory];
+        }
+        
+        function createKawaiiExplosion() {
+            const kawaiiEmojis = ['🎀', '🌸', '🦄', '✨', '💖', '🌈', '⭐', '🍭', '👑', '💕', '🌺', '🦋'];
+            const button = document.querySelector('.generate-btn');
+            const rect = button.getBoundingClientRect();
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const kawaii = document.createElement('div');
+                    kawaii.className = 'kawaii-explosion';
+                    kawaii.textContent = kawaiiEmojis[Math.floor(Math.random() * kawaiiEmojis.length)];
+                    kawaii.style.left = (rect.left + rect.width/2 + (Math.random() - 0.5) * 300) + 'px';
+                    kawaii.style.top = (rect.top + rect.height/2 + (Math.random() - 0.5) * 300) + 'px';
+                    document.body.appendChild(kawaii);
+                    
+                    setTimeout(() => kawaii.remove(), 2000);
+                }, i * 30);
+            }
+        }
+        
+        function playKawaiiSound() {
+            // Simulation d'effet sonore kawaii avec vibration
+            const button = document.querySelector('.generate-btn');
+            button.style.animation = 'none';
+            setTimeout(() => {
+                button.style.animation = 'button-kawaii 0.5s infinite, gradient-move 4s ease infinite';
+            }, 100);
+        }
+        
+        function shareSurnom() {
+            if (currentSurnom) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Surnom kawaii pour Amaia',
+                        text: `🎀 ${currentSurnom} 🎀`,
+                        url: window.location.href
+                    });
+                } else {
+                    navigator.clipboard.writeText(currentSurnom).then(() => {
+                        alert('🎀 Surnom kawaii copié ! Tu peux maintenant le partager avec Amaia ! 🎀');
+                    });
+                }
+            } else {
+                alert('✨ Génère d\'abord un surnom kawaii ! ✨');
+            }
+        }
+        
+        // Éléments kawaii qui suivent la souris
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.9) {
+                const kawaiiElements = ['🎀', '🌸', '✨', '💖', '🦄', '🌈'];
+                const kawaii = document.createElement('div');
+                kawaii.className = 'floating-kawaii';
+                kawaii.textContent = kawaiiElements[Math.floor(Math.random() * kawaiiElements.length)];
+                kawaii.style.left = e.pageX + 'px';
+                kawaii.style.top = e.pageY + 'px';
+                document.body.appendChild(kawaii);
+                
+                setTimeout(() => kawaii.remove(), 3000);
+            }
+        });
+        
+        // Animation CSS pour le texte arc-en-ciel
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { color: #ff1493; }
+                16% { color: #ff4500; }
+                33% { color: #ffd700; }
+                50% { color: #32cd32; }
+                66% { color: #1e90ff; }
+                83% { color: #9932cc; }
+                100% { color: #ff1493; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Effets spéciaux sur les catégories
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                // Petite explosion kawaii au survol
+                const rect = this.getBoundingClientRect();
+                const emoji = this.textContent.split(' ')[0];
+                
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const effect = document.createElement('div');
+                        effect.className = 'floating-kawaii';
+                        effect.textContent = emoji;
+                        effect.style.left = (rect.left + rect.width/2 + (Math.random() - 0.5) * 100) + 'px';
+                        effect.style.top = (rect.top + rect.height/2 + (Math.random() - 0.5) * 100) + 'px';
+                        effect.style.fontSize = '12px';
+                        document.body.appendChild(effect);
+                        
+                        setTimeout(() => effect.remove(), 2000);
+                    }, i * 100);
+                }
+            });
+        });
+        
+        // Génération automatique d'un premier surnom
+        setTimeout(() => {
+            generateSurnom();
+        }, 1000);
+        
+        // Pluie de kawaii aléatoire
+        function createKawaiiRain() {
+            const kawaiiRain = ['🎀', '🌸', '✨', '💖', '🦄', '🌈', '⭐', '🍭', '👑', '💕'];
+            const kawaii = document.createElement('div');
+            kawaii.style.position = 'fixed';
+            kawaii.style.top = '-50px';
+            kawaii.style.left = Math.random() * window.innerWidth + 'px';
+            kawaii.style.fontSize = '20px';
+            kawaii.style.pointerEvents = 'none';
+            kawaii.style.zIndex = '998';
+            kawaii.textContent = kawaiiRain[Math.floor(Math.random() * kawaiiRain.length)];
+            kawaii.style.animation = 'fall 6s linear';
+            
+            document.body.appendChild(kawaii);
+            
+            setTimeout(() => kawaii.remove(), 6000);
+        }
+        
+        // Créer de la pluie kawaii toutes les 2 secondes
+        setInterval(createKawaiiRain, 2000);
+        
+        // Animation de chute pour la pluie
+        const fallAnimation = document.createElement('style');
+        fallAnimation.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(fallAnimation);
+    </script>
+</body>
+</html>

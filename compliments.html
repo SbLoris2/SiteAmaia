@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Générateur de Compliments pour AMAIA 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #dc143c, #ff69b4, #ffd700);
+            background-size: 500% 500%;
+            animation: gradientShift 4s ease infinite;
+            min-height: 100vh;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="18" font-size="18">✨</text></svg>'), auto;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 5px dashed #ff1493;
+            margin: 20px 0;
+            border-radius: 25px;
+            box-shadow: 0 0 30px #ff69b4;
+            animation: rainbow-border 3s infinite;
+        }
+        
+        @keyframes rainbow-border {
+            0% { border-color: #ff1493; box-shadow: 0 0 30px #ff69b4; }
+            25% { border-color: #ffd700; box-shadow: 0 0 30px #ffd700; }
+            50% { border-color: #32cd32; box-shadow: 0 0 30px #32cd32; }
+            75% { border-color: #1e90ff; box-shadow: 0 0 30px #1e90ff; }
+            100% { border-color: #ff1493; box-shadow: 0 0 30px #ff69b4; }
+        }
+        
+        .title {
+            font-size: 3.5em;
+            color: #ff1493;
+            text-shadow: 3px 3px 0 #ffb6c1, 6px 6px 0 #ff69b4, 9px 9px 0 #dc143c;
+            animation: bounce 1.5s infinite alternate;
+            margin: 15px 0;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0px) scale(1); }
+            to { transform: translateY(-15px) scale(1.05); }
+        }
+        
+        .generator-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 4px solid #ff69b4;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .compliment-display {
+            background: linear-gradient(135deg, #ffb6c1, #ffd1dc, #ffe4e6);
+            border: 3px solid #ff1493;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #dc143c;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+            animation: glow 2s infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .compliment-display::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px #ff69b4; }
+            to { box-shadow: 0 0 40px #ff1493, 0 0 60px #dc143c; }
+        }
+        
+        .generate-btn {
+            background: linear-gradient(45deg, #ff1493, #ff69b4, #ffd700);
+            background-size: 300% 300%;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
+            animation: button-glow 2s infinite, gradient-move 3s ease infinite;
+            transition: transform 0.2s;
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        @keyframes gradient-move {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes button-glow {
+            0%, 100% { box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4); }
+            50% { box-shadow: 0 8px 30px rgba(255, 20, 147, 0.8), 0 0 40px #ff69b4; }
+        }
+        
+        .generate-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            animation-duration: 0.5s;
+        }
+        
+        .generate-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .stats-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #ff69b4;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            animation: wiggle 4s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(1deg); }
+            75% { transform: rotate(-1deg); }
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #32cd32, #90ee90);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            border: 3px solid #228b22;
+            box-shadow: 0 0 15px #90ee90;
+            animation: pulse 2s infinite;
+            margin: 20px 10px;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px #90ee90; }
+            50% { box-shadow: 0 0 25px #32cd32, 0 0 35px #90ee90; }
+            100% { box-shadow: 0 0 15px #90ee90; }
+        }
+        
+        .hearts-explosion {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            font-size: 25px;
+            animation: explode 1.5s ease-out;
+        }
+        
+        @keyframes explode {
+            0% { 
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5) rotate(180deg);
+            }
+            100% { 
+                opacity: 0;
+                transform: scale(0.5) rotate(360deg) translateY(-100px);
+            }
+        }
+        
+        .sparkle-trail {
+            position: fixed;
+            pointer-events: none;
+            font-size: 15px;
+            animation: trail 2s ease-out;
+            z-index: 999;
+        }
+        
+        @keyframes trail {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0) translateY(-50px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">✨ GÉNÉRATEUR MAGIQUE ✨</h1>
+            <p style="font-size: 1.5em; color: #dc143c; animation: rainbow 3s linear infinite;">
+                DE COMPLIMENTS POUR AMAIA
+            </p>
+            <p style="font-size: 1.2em; color: #ff1493; margin-top: 10px;">
+                🌟 Des compliments infinis pour la plus belle ! 🌟
+            </p>
+        </div>
+        
+        <div class="generator-box">
+            <h2 style="color: #ff1493; font-size: 2em; margin-bottom: 20px;">
+                💖 TON COMPLIMENT PERSONNALISÉ 💖
+            </h2>
+            
+            <div class="compliment-display" id="complimentDisplay">
+                <p>✨ Clique sur le bouton magique pour découvrir à quel point tu es extraordinaire ! ✨</p>
+            </div>
+            
+            <button class="generate-btn" onclick="generateCompliment()">
+                🪄 NOUVEAU COMPLIMENT MAGIQUE 🪄
+            </button>
+            
+            <div class="stats-box">
+                <h3 style="color: #ff1493; margin-bottom: 10px;">📊 STATISTIQUES D'AMOUR</h3>
+                <p style="color: #dc143c;">
+                    💕 Compliments générés: <span id="complimentCount">0</span><br>
+                    🌟 Niveau de beauté d'Amaia: ∞ (Infini)<br>
+                    💖 Pourcentage d'amour: 200% (et ça augmente!)
+                </p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="index.html" class="back-link">
+                🏠 RETOUR À L'ACCUEIL
+            </a>
+            <button class="back-link" onclick="shareCompliment()" style="border: none; cursor: pointer;">
+                📱 PARTAGER CE COMPLIMENT
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        const compliments = [
+            "💖 Amaia, tu es plus belle que toutes les étoiles du ciel réunies !",
+            "🌹 Ton sourire illumine l'univers entier, Amaia chérie !",
+            "✨ Tu es la définition même de la perfection, ma belle Amaia !",
+            "🦄 Amaia, tu es plus magique qu'une licorne arc-en-ciel !",
+            "💎 Tu brilles comme le plus précieux des diamants, Amaia !",
+            "🌺 Ta beauté fait pâlir toutes les fleurs du monde, Amaia !",
+            "⭐ Tu es ma galaxie personnelle, Amaia adorée !",
+            "🌸 Chaque jour avec toi est un cadeau du paradis, Amaia !",
+            "💫 Tu es plus éblouissante que mille soleils, ma princesse Amaia !",
+            "🎨 Tu es l'œuvre d'art la plus magnifique jamais créée, Amaia !",
+            "🌈 Tu apportes plus de couleurs à ma vie qu'un arc-en-ciel, Amaia !",
+            "🧚‍♀️ Tu es ma fée marraine personnelle, Amaia magique !",
+            "🌙 Tu es plus douce que la lueur de la lune, Amaia tendre !",
+            "🎭 Tu joues le rôle principal dans le film de mes rêves, Amaia !",
+            "🏰 Tu es la reine de mon château de conte de fées, Amaia !",
+            "🎪 Ta joie est plus contagieuse qu'un rire de cirque, Amaia !",
+            "🍯 Tu es plus douce que le miel le plus pur, Amaia sucrée !",
+            "🎵 Ta voix est la plus belle mélodie de l'univers, Amaia !",
+            "🌟 Tu fais que chaque moment ordinaire devient extraordinaire, Amaia !",
+            "💝 Tu es le plus beau cadeau que la vie m'ait offert, Amaia !",
+            "🔥 Ta passion enflamme mon cœur d'amour, Amaia ardente !",
+            "🌊 Tu es plus rafraîchissante qu'une brise océanique, Amaia !",
+            "🎆 Tu es mon feu d'artifice personnel, Amaia éclatante !",
+            "🏔️ Ta force rivalise avec les plus hautes montagnes, Amaia courageuse !",
+            "🌻 Tu rayonnes comme un champ de tournesols, Amaia solaire !",
+            "🎈 Tu fais voler mon cœur plus haut que tous les ballons, Amaia !",
+            "🦋 Ta grâce rivalise avec le vol des papillons, Amaia élégante !",
+            "🍓 Tu es plus délicieuse que la plus sucrée des fraises, Amaia !",
+            "🎪 Tu es la star du plus merveilleux des spectacles, Amaia !",
+            "🌺 Ton parfum naturel embaume mon âme, Amaia enivrante !"
+        ];
+        
+        let complimentCount = 0;
+        let currentCompliment = "";
+        
+        function generateCompliment() {
+            const randomIndex = Math.floor(Math.random() * compliments.length);
+            currentCompliment = compliments[randomIndex];
+            
+            const display = document.getElementById('complimentDisplay');
+            
+            // Animation de changement
+            display.style.transform = 'scale(0.8)';
+            display.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                display.innerHTML = '<p>' + currentCompliment + '</p>';
+                display.style.transform = 'scale(1)';
+                display.style.opacity = '1';
+                
+                complimentCount++;
+                document.getElementById('complimentCount').textContent = complimentCount;
+                
+                // Explosion de cœurs
+                createHeartsExplosion();
+                
+                // Son d'effet (simulation)
+                playComplimentSound();
+                
+            }, 200);
+        }
+        
+        function createHeartsExplosion() {
+            const hearts = ['💖', '💕', '💗', '💘', '💝', '💞', '💟', '❤️', '💋', '🌹', '✨', '⭐', '🌟'];
+            const button = document.querySelector('.generate-btn');
+            const rect = button.getBoundingClientRect();
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'hearts-explosion';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = (rect.left + rect.width/2 + (Math.random() - 0.5) * 200) + 'px';
+                    heart.style.top = (rect.top + rect.height/2 + (Math.random() - 0.5) * 200) + 'px';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 1500);
+                }, i * 50);
+            }
+        }
+        
+        function playComplimentSound() {
+            // Simulation d'effet sonore avec vibration du bouton
+            const button = document.querySelector('.generate-btn');
+            button.style.animation = 'none';
+            setTimeout(() => {
+                button.style.animation = 'button-glow 0.5s infinite, gradient-move 3s ease infinite';
+            }, 100);
+        }
+        
+        function shareCompliment() {
+            if (currentCompliment) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Compliment pour Amaia',
+                        text: currentCompliment,
+                        url: window.location.href
+                    });
+                } else {
+                    navigator.clipboard.writeText(currentCompliment).then(() => {
+                        alert('💖 Compliment copié ! Tu peux maintenant le partager avec Amaia ! 💖');
+                    });
+                }
+            } else {
+                alert('✨ Génère d\'abord un compliment magique ! ✨');
+            }
+        }
+        
+        // Paillettes qui suivent la souris
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.85) {
+                const sparkles = ['✨', '⭐', '💫', '🌟', '💖', '💕'];
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle-trail';
+                sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+        });
+        
+        // Animation CSS pour le texte arc-en-ciel
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { color: #ff1493; }
+                16% { color: #ff4500; }
+                33% { color: #ffd700; }
+                50% { color: #32cd32; }
+                66% { color: #1e90ff; }
+                83% { color: #9932cc; }
+                100% { color: #ff1493; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Message de bienvenue automatique
+        setTimeout(() => {
+            generateCompliment();
+        }, 1000);
+    </script>
+</body>
+</html>
